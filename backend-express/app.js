@@ -10,17 +10,17 @@ mongoose.connect(uri,
     { useNewUrlParser: true,
       useUnifiedTopology: true 
     }).then(
-        () => console.log('MongoDB Atlas Connection: Connected')
+        () => console.log('MongoDB Atlas Connection: Connected') //  MongoDB Atlas Connection: Connected
     ).catch(
-        error => console.log(`[Error] MongoDB Atlas Connection: ${error}`)
+        error => console.log(`[Error] MongoDB Atlas Connection: ${error}`) // Catch error
     )
 
 // Middlewares
-app.use(express.urlencoded( {extended: true} ));
+app.use(express.urlencoded( {extended: true} )); // Import middle ware request parser for url encoded form data / request body.
 
 // Routes (Backend APIs)
 
-// Constructing a directory via /api/{routes imported from module}
+// Constructing a directory via /api/{route file imported from routes folder}
 app.use('/api/', require('./routes/index')) // Importing exported module from the directory folder routes and file index.js
 
 // This app starts a server and listens on PORT for connections.

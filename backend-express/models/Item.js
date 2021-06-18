@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const ItemSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -9,6 +10,10 @@ const ItemSchema = new mongoose.Schema({
         required: true
     },
     image: {
+        type: String,
+        required: true
+    },
+    listing_status: {
         type: String,
         required: true
     },
@@ -23,6 +28,6 @@ const ItemSchema = new mongoose.Schema({
     },
 });
 
-const Item = mongoose.model('Item', ItemSchema)
+const Item = mongoose.model('Item', ItemSchema) // construct mongoose model using schema
 
-module.exports = Item;
+module.exports = Item; // export as object
