@@ -63,7 +63,11 @@ router.post('/update', async (req, res) => {
                 image,
                 listing_status
             }, (err, resp) => {
-                console.log(resp)
+                if (err) {
+                    console.log(`[${err}] [${item_id}] Error encountered whilst updating database`) // error message alerting of an error occuring in the update api
+                } else if (resp) {
+                    console.log(`[${item_id}] Successfully updated item`)
+                }
             });
         }
     } catch (error) {
