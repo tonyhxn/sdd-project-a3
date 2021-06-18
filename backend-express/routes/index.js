@@ -57,12 +57,14 @@ router.post('/update', async (req, res) => {
         } else if (listing_status !== 'Sold' && listing_status !==  'Active') { // Validate the data, that listing status only has two inputs (sold/active)
             res.send({response: 'Invalid listing status'}); // send error message for invalid field back to frontend request
         } else {
-            Item.update({item_id: item_id}, {
+            Item.updateOne({item_id: item_id}, {
                 title,
                 price,
                 image,
                 listing_status
-            })
+            }, (err, resp) => {
+                console.log(resp)
+            });
         }
     } catch (error) {
         console.log(`${error} Error processing update request`)
