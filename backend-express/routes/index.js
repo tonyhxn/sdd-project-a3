@@ -41,7 +41,7 @@ router.post('/create', async (req, res) => {
             });
             await newItem.save(); // insert new item object into database
             await console.log(`[${item_id}] Saved new item successfully`); // log the status of creating item process
-            await res.send({response: `[${item_id}] Captured item successfully`}); // complete response to frontend request 
+            await res.send({response: `[${item_id}] Saved new item successfully`}); // complete response to frontend request 
         };
     } catch (error) {
         res.send({response: `[${error}] Error processing create request`}) // Safer error handling encompassing a greater scope if processing request encounters error, does not crash program instead returns error response
@@ -57,7 +57,7 @@ router.post('/update', async (req, res) => {
         } else if (listing_status !== 'Sold' && listing_status !==  'Active') { // Validate the data, that listing status only has two inputs (sold/active)
             res.send({response: 'Invalid listing status'}); // send error message for invalid field back to frontend request
         } else {
-            Item.updateOne({item_id: item_id}, {
+            await Item.updateOne({item_id: item_id}, {
                 title,
                 price,
                 image,
@@ -65,8 +65,15 @@ router.post('/update', async (req, res) => {
             }, (err, resp) => {
                 if (err) {
                     console.log(`[${err}] [${item_id}] Error encountered whilst updating database`) // error message alerting of an error occuring in the update api
-                } else if (resp) {
-                    console.log(`[${item_id}] Successfully updated item`)
+                } else if (resp.n === 1) {
+                    console.log(`[${item_id}] Updated item successfully`) // log the status of updating item database
+                    res.send({response: `[${item_id}] Updated item successfully`}) // complete response to frontend request 
+                } else if (resp.n === 0) {
+                    console.log(`[${item_id}] Item id not found`) // Item with item_id that is being updated is not found in the database incurring in a response with n: 0
+                    res.send({response: `[${item_id}] Item id not found`}) // complete response to frontend request
+                } else {
+                    console.log(`[${item_id}] Item id updated`) // If doesn't return 1 or 0, but doesn't crash app. Null response
+                    res.send({response: `[${item_id}] Item id updated`}) // complete response to frontend request
                 }
             });
         }
