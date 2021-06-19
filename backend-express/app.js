@@ -21,7 +21,9 @@ app.use(express.json()); // Import middle ware request parser for json form data
 // Routes (Backend APIs)
 
 // Constructing a directory via /api/{route file imported from routes folder}
-app.use('/api/', require('./routes/index')) // Importing exported module from the directory folder routes and file index.js
+app.use('/api/', require('./routes/create')) // Importing exported module from the directory folder routes and file create.js
+app.use('/api/', require('./routes/update')) // Importing exported module from the directory folder routes and file update.js
+app.use('/api/', require('./routes/retrieve')) // Importing exported module from the directory folder routes and file retrieve.js
 
 // This app starts a server and listens on PORT for connections.
-app.listen(PORT, console.log(`Backend Express Server: Initiated on PORT ${PORT}`)); // Back tick formatting, concatenating variable PORT into string displaying server connectivity status.
+app.listen(PORT, console.log(`Backend Express Server: Initiated on PORT ${PORT}`)); // Back tick string formatting, concatenating variable PORT into string displaying server connectivity status.
