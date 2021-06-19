@@ -21,8 +21,8 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-}, { timestamps: true });
+}, { timestamps: true }); // parameter for adding createdAt and updatedAt timestamps
 
-const Item = mongoose.model('Item', ItemSchema) // construct mongoose model using schema
+const Item = mongoose.model('Item', ItemSchema) // construct mongoose schema model
 
-module.exports = Item; // export as object
+module.exports = Item; // export as object Item 

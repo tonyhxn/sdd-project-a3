@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000; // Whatever is in the environment variabl
 const mongoose = require('mongoose') // MongoDB module able to communicate between database and backend app
 const uri = "mongodb+srv://admin_tony:e5IWZWuGoI8DPzWh@cluster0.i7z6h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"; // Endpoint for connecting to database, contains database server details
 
-mongoose.connect(uri,
+mongoose.connect(uri, // Connect to mongo database via access uri
     { useNewUrlParser: true,
       useUnifiedTopology: true 
     }).then(
@@ -17,6 +17,7 @@ mongoose.connect(uri,
 
 // Middlewares
 app.use(express.json()); // Import middle ware request parser for json form data / request body.
+// Able to handle form data sent with application/json type
 
 // Routes (Backend APIs)
 
