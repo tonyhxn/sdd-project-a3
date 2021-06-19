@@ -16,7 +16,7 @@ mongoose.connect(uri,
     )
 
 // Middlewares
-app.use(express.urlencoded( {extended: true} )); // Import middle ware request parser for url encoded form data / request body.
+app.use(express.json()); // Import middle ware request parser for json form data / request body.
 
 // Routes (Backend APIs)
 

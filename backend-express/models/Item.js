@@ -13,8 +13,8 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    listing_status: {
-        type: String,
+    variants: {
+        type: Array,
         required: true
     },
     item_id: {

@@ -6,14 +6,15 @@ const router =  express.Router();
 const Item = require('../models/Item'); // Contains mongodb schema for item model
 // Import item id generation function
 const generateItemId = require('../modules/product_string');
+const validate_ls = require('../modules/validate_ls');
 
 // Create Item
 router.post('/create', async (req, res) => {
     try {
-        const { title, price, image, listing_status } = req.body;
-        if ( !title || !price || !image) { // If either title, price, listing status or image doesn't exist
+        const { title, price, image, variants } = req.body;
+        if ( !title || !price || !image || !variants) { // If either title, price, listing status or image doesn't exist
             res.send({response: 'Missing form fields'}); // send error message for missing fields back to frontend request
-        } else if (listing_status !== 'Sold' && listing_status !==  'Active') { // Validate the data, that listing status only has two inputs (sold/active)
+        } else if (validate_ls(variants)) { // Validate the data, that listing status only has two inputs (sold/active)
             res.send({response: 'Invalid listing status'}); // send error message for invalid field back to frontend request
         } else {
             let item_id = await generateItemId(); // generate a new random 
@@ -32,12 +33,13 @@ router.post('/create', async (req, res) => {
                 }
             };
             await console.log(`[${item_id}] Constructing new item...`); // Creating new item model using variables from request body
+
             const newItem = await new Item({
-                title,
-                price,
-                image,
-                listing_status,
-                item_id
+                title: title,
+                price: price,
+                image: image,
+                variants: variants,
+                item_id: item_id
             });
             await newItem.save(); // insert new item object into database
             await console.log(`[${item_id}] Saved new item successfully`); // log the status of creating item process
@@ -51,18 +53,16 @@ router.post('/create', async (req, res) => {
 // Update Item
 router.post('/update', async (req, res) => {
     try {
-        const {title, price, image, listing_status, item_id} = req.body;
-        if ( !title || !price || !image || !item_id) { // If either title, price, item_id or image doesn't exist
+        const {title, price, image, variants, item_id} = req.body;
+        if ( !title || !price || !image || !variants ||!item_id) { // If either title, price, variants, item_id or image doesn't exist
             res.send({response: 'Missing form fields'}); // send error message for missing fields back to frontend request
-        } else if (listing_status !== 'Sold' && listing_status !==  'Active') { // Validate the data, that listing status only has two inputs (sold/active)
+        } else if (validate_ls(variants)) { // Validate the variants data, that listing status only has two inputs (sold/active)
             res.send({response: 'Invalid listing status'}); // send error message for invalid field back to frontend request
         } else {
-            await Item.updateOne({item_id: item_id}, {
-                title,
-                price,
-                image,
-                listing_status
-            }, (err, resp) => {
+            await Item.updateOne(
+                { item_id: item_id },
+                { title, price, image, variants}
+            , (err, resp) => {
                 if (err) {
                     console.log(`[${err}] [${item_id}] Error encountered whilst updating database`) // error message alerting of an error occuring in the update api
                 } else if (resp.n === 1) {
@@ -78,12 +78,18 @@ router.post('/update', async (req, res) => {
             });
         }
     } catch (error) {
-        console.log(`${error} Error processing update request`)
+        res.send(`${error} Error processing update request`) // Safer error handling encompassing a greater scope if processing request encounters error, does not crash program instead returns error response
     };
 });
 
 // Return Items
-
+router.post('/retrieve', async (req, res) => {
+    try {
+        const {} = req.body;
+    } catch (error) {
+        res.send(`${error} Error processing update request`) // Safer error handling encompassing a greater scope if processing request encounters error, does not crash program instead returns error response
+    };
+});
 
 // Price of items api
 
