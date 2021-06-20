@@ -1,7 +1,6 @@
 const express = require('express');
 const router =  express.Router();
 
-// Create Item and Save item
 // Import Item Model
 const Item = require('../models/Item'); // Contains mongodb schema for item model
 
