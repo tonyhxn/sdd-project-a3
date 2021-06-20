@@ -6,7 +6,7 @@ const router =  express.Router();
 const Item = require('../models/Item'); // Contains mongodb schema for item model
 
 // Retrieve Items
-router.post('/retrieve', async (req, res) => {
+router.get('/retrieve', async (req, res) => {
     try {
         await console.log('Retrieving item(s) from database...')
         const all_listings = await Item.find(); // retrieve all items from database

@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 const PORT = process.env.PORT || 3000; // Whatever is in the environment variable PORT but if nothing is there use port 3000
 
 // Database Connection
@@ -16,6 +17,7 @@ mongoose.connect(uri, // Connect to mongo database via access uri
     )
 
 // Middlewares
+app.use(cors());
 app.use(express.json()); // Import middle ware request parser for json form data / request body.
 // Able to handle form data sent with application/json type
 
