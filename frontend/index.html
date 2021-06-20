@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytory - Give your inventory value!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/db54eb1973.js" crossorigin="anonymous"></script>
+    <script src="assets/scripts/script.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="light-theme">
+    <div class="side-menu">
+        <div class="user-profile">
+            <img src="assets/media/duck_avatar.gif" alt='Profile Avatar' class="avatar">
+            <div class="user-name">Sir Quackers</div>
+            <div class="user-desc">Rubber Ducky Tycoon</div>
+        </div>
+
+        <nav class='side-nav'>
+            <a style="color: white;">Analytory✨- Give your inventory value! </a>
+            <a href=""><i class="fas fa-chart-line"></i> Overview</a>
+            <a href=""><i class="fas fa-palette"></i> Themes</a>
+            <a href=""><i class="fas fa-book"></i> Help</a>
+            
+            <a style="color: white;">Developed with ♥️<br>by Tony Wang</a>
+        </nav>
+    </div>
+    <div class="main-container">
+        <div class="title">Dashboard Overview</div>
+        <div class="subtitle">Welcome back, Sir Quackers!</div> 
+        <div class="container"></div>
+        <div class="container">
+            <div class="card">
+                Market Evaluation: $25,694
+            </div>
+            <div class="card">
+                Total Profit: $9,354
+            </div>
+            <div class="card">
+                Total Sales: $19,438
+            </div>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Item ID</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Variant</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Sold</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Market Price</th>
+                    <th scope="col">Net</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody id="items-table">
+                    
+                </tbody>
+              </table>
+              <div id="loading-message">Loading Items From Database...</div>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- <tr>
+    <th scope="row">1</th>
+    <td>Mark</td>
+    <td>Otto</td>
+    <td>@mdo</td>
+  </tr>
+  <tr>
+    <th scope="row">2</th>
+    <td>Jacob</td>
+    <td>Thornton</td>
+    <td>@fat</td>
+  </tr>
+  <tr>
+    <th scope="row">3</th>
+    <td>Larry</td>
+    <td>the Bird</td>
+    <td>@twitter</td>
+  </tr> -->

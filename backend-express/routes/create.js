@@ -9,16 +9,16 @@ const Item = require('../models/Item'); // Contains mongodb schema for item mode
 const generateItemId = require('../modules/product_string');
 
 // Import validate listing status function
-const validate_ls = require('../modules/validate_ls');
+const validate_var = require('../modules/validate_var');
 
 // Create Item
 router.post('/create', async (req, res) => {
     try {
-        const { title, price, image, variants } = req.body;
-        if ( !title || !price || !image || !variants) { // If either title, price, listing status or image doesn't exist
+        const { title, price, image, variants: raw_variants } = req.body;
+        if ( !title || !price || !image || !raw_variants) { // If either title, price, variants or image doesn't exist
             res.send({response: 'Missing form fields'}); // send error message for missing fields back to frontend request
-        } else if (validate_ls(variants)) { // Validate the data, that listing status only has two inputs (sold/active)
-            res.send({response: 'Invalid listing status'}); // send error message for invalid field back to frontend request
+        } else if (validate_var(raw_variants)) { // Validate the data, that variants have variant, active, sold
+            res.send({response: 'Invalid variants'}); // send error message for invalid field back to frontend request
         } else {
             let item_id = await generateItemId(); // generate a new random 
             let item_exists = false
@@ -37,6 +37,13 @@ router.post('/create', async (req, res) => {
             };
             await console.log(`[${item_id}] Constructing new item...`); // Creating new item model using variables from request body
 
+            let variants = [];
+            let new_variant_timestamp = Date.now(); // defining timestamp, so that it doesn't change if it were redefined every iteration in a for loop => slightly different times
+            raw_variants.forEach(variant => {
+                variant.date = new_variant_timestamp
+                variants.push(variant)
+            });
+
             const newItem = await new Item({
                 title: title,
                 price: price,
@@ -49,7 +56,7 @@ router.post('/create', async (req, res) => {
             await res.send({response: `[${item_id}] Saved new item successfully`}); // complete response to frontend request 
         };
     } catch (error) {
-        res.send({response: `[${error}] Error processing create request`}) // Safer error handling encompassing a greater scope if processing request encounters error, does not crash program instead returns error response
+        res.send(`[${error}] Error processing create request`) // Safer error handling encompassing a greater scope if processing request encounters error, does not crash program instead returns error response
     };
 });
 
