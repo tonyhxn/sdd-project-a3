@@ -41,21 +41,38 @@ async function updateDashboard() {
 
             document.getElementById("loading-message").innerHTML =  'Please bare with us, whilst we display your items! 🥳';
             
-            let item_rows = '<tr>';
+            var item_rows = `<tr>`;
+            
             await all_items.forEach(item => {
                 let item_id = item.item_id
                 // let market_price = 
                 let image = item.image
                 let title = item.title
                 let price = item.price
-                let variants = item.variants
-                let market_price = 1234.56
-                variants.forEach(variant_dict => {
+                let raw_variants = item.variants // raw_variants, meaning raw unformatted data from the request
+                let market_price = 129.99
+                
+                
+                let variants = [];
+
+                raw_variants.forEach(variant_dict => {
 
                     let variant = variant_dict.variant
                     let active_inventory = variant_dict.active
                     let sold_inventory = variant_dict.sold
                     let date = new Date(variant_dict.date).toLocaleDateString("en-US")
+                    let net_amount = parseFloat(((market_price* 100 - price* 100)/100).toPrecision(4)) // solution of multiplying prices by 100 to make into an integer then subtract between integers then divide by 100 back to decimal value to solve subtraction of integers issue. Fix divided to 2 decimal places
+                    
+                    if (net_amount > 0) {
+                        net_amount_colour = '#0baa40'
+                    } else if (net_amount == 0) {
+                        net_amount_colour = 'dodgerblue'
+                    } else if (net_amount < 0) {
+                        net_amount_colour = '#ff5a5f'
+                    } else {
+                        net_amount_colour = 'black'
+                    }
+
                     item_rows += `<th scope="row">${item_id}</th>`
                     item_rows += `<td><img src="${image}" class="item-icon"></td>`
                     item_rows += `<td>${title}</td>`
@@ -64,10 +81,8 @@ async function updateDashboard() {
                     item_rows += `<td>${sold_inventory}</td>`
                     item_rows += `<td>$${price}</td>`
                     item_rows += `<td>$${market_price}</td>`
-                    item_rows += `<td>$${(market_price* 100 - price* 100)/100}</td>` // solution of multiplying prices by 100 to make into an integer then subtract between integers then divide by 100 back to decimal value to avoid subtraction of integers issue.
-                    item_rows += `<td>${date}</td></tr>`
-
-
+                    item_rows += `<td style="color: ${net_amount_colour};">$${net_amount}</td>` 
+                    item_rows += `<td>${date}</td> </tr>`
                 });
                 
             });
