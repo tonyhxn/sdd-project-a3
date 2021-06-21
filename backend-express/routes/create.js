@@ -1,9 +1,11 @@
 const express = require('express');
 const router =  express.Router();
 
-// Create Item and Save item
 // Import Item Model
 const Item = require('../models/Item'); // Contains mongodb schema for item model
+
+// Import Market Price Model
+const Market = require('../models/MarketPrice'); // Contains mongodb schema for marketprice model
 
 // Import item id generation function
 const generateItemId = require('../modules/product_string');
@@ -11,7 +13,7 @@ const generateItemId = require('../modules/product_string');
 // Import validate listing status function
 const validate_var = require('../modules/validate_var');
 
-// Create Item
+// Create Item and Save item
 router.post('/create', async (req, res) => {
     try {
         const { title, price, image, variants: raw_variants } = req.body;
@@ -51,7 +53,14 @@ router.post('/create', async (req, res) => {
                 variants: variants,
                 item_id: item_id
             });
+
+            const newMarketItem = await new Market({
+                market_price: price,
+                item_id: item_id
+            });
+
             await newItem.save(); // insert new item object into database
+            await newMarketItem.save(); // insert new market item object into database
             await console.log(`[${item_id}] Saved new item successfully`); // log the status of creating item process
             await res.send({response: `[${item_id}] Saved new item successfully`}); // complete response to frontend request 
         };

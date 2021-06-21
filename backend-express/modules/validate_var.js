@@ -12,4 +12,4 @@ function validate_var(variants, type) {
 
 };
 
-module.exports = validate_var;
+module.exports = validate_var; // export as function

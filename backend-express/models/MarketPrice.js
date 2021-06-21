@@ -9,7 +9,7 @@ const MarketSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-}, { timestamps: true }); // parameter for adding createdAt and updatedAt timestamps
+});
 
 const Market = mongoose.model('Market', MarketSchema) // construct mongoose schema model
 

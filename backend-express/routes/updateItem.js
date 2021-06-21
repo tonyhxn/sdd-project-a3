@@ -37,7 +37,7 @@ router.post('/update', async (req, res) => {
                     variant.date = new_variant_timestamp // Update date
                     variants.push(variant) // Save changed variant into variants
                 }
-            };  
+            };
 
             await Item.updateOne(
                 { item_id: item_id },

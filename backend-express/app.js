@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const PORT = process.env.PORT || 3000; // Whatever is in the environment variable PORT but if nothing is there use port 3000
+const updateMarket = require('./modules/updateMarket');
 
 // Database Connection
 const mongoose = require('mongoose') // MongoDB module able to communicate between database and backend app
@@ -25,8 +26,11 @@ app.use(express.json()); // Import middle ware request parser for json form data
 
 // Constructing a directory via /api/{route file imported from routes folder}
 app.use('/api/', require('./routes/create')) // Importing exported module from the directory folder routes and file create.js
-app.use('/api/', require('./routes/update')) // Importing exported module from the directory folder routes and file update.js
+app.use('/api/', require('./routes/updateItem')) // Importing exported module from the directory folder routes and file update.js
 app.use('/api/', require('./routes/retrieve')) // Importing exported module from the directory folder routes and file retrieve.js
+app.use('/api/', require('./routes/marketPrice')) // Importing exported module from the directory folder routes and file marketPrice.js
+
+updateMarket()
 
 // This app starts a server and listens on PORT for connections.
 app.listen(PORT, console.log(`Backend Express Server: Initiated on PORT ${PORT}`)); // Back tick string formatting, concatenating variable PORT into string displaying server connectivity status.

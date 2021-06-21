@@ -3,7 +3,7 @@ async function generateItemId() {
         await console.log('Generating item id...')
         var item_id = '' // Define empty string for item id
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; // Define characters used in item id string
-        for (let i = 0; i < 12; i++) { // Generating a 12 alphanumeric character string
+        for (let i = 0; i < 10; i++) { // Generating a 10 alphanumeric character string
             random_index = Math.floor(Math.random() * characters.length) // Randomly generates an index within the length of the characters string
             item_id += characters[random_index] // Concatenate product_id string with new character from characters based off the index
         }
