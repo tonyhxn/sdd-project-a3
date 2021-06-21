@@ -28,6 +28,7 @@ app.use(express.json()); // Import middle ware request parser for json form data
 app.use('/api/', require('./routes/create')) // Importing exported module from the directory folder routes and file create.js
 app.use('/api/', require('./routes/updateItem')) // Importing exported module from the directory folder routes and file update.js
 app.use('/api/', require('./routes/retrieve')) // Importing exported module from the directory folder routes and file retrieve.js
+app.use('/api/', require('./routes/delete')) // Importing exported module from the directory folder routes and file delete.js
 app.use('/api/', require('./routes/marketPrice')) // Importing exported module from the directory folder routes and file marketPrice.js
 
 updateMarket()

@@ -152,6 +152,7 @@ html, body {
 }
 
 #loading-message {
+    margin-top: 1rem;
     text-align: center;
     width: 100%;
     display: inline-block;
@@ -169,4 +170,13 @@ tbody > tr:hover {
     opacity: 0.85;
     border-radius: 0.35rem;
     box-shadow: 0 8px 16px 0 rgba(37, 37, 37, 0.1);
+}
+
+.netamount-label {
+    color: white;
+    padding: 0.25rem;
+    border-radius: 1rem;
+    width: 100%;
+    transition: 0.3s;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.15);
 }

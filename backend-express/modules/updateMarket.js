@@ -21,13 +21,24 @@ async function updateMarket() {
             item = all_items[i]
             item_id = item.item_id
             const market_item = await Market.findOne({ item_id: item_id }); // Find marketprice for respective item_id
-            let change = [Math.floor((Math.random() * 50) + 1), -(Math.floor((Math.random() * 50) + 1))] // array containing a random number either between -50 to 50, simulating a random change in the marketprice
-            let market_price = (market_item.market_price + change[Math.floor(Math.random() * change.length)]).toFixed(2) // apply the market price with the random change generated previously, with only 2 decimal places
-            console.log(market_price)
+            let old_market_price = market_item.market_price
+            let change_array = [Math.floor((Math.random() * 50) + 1), -(Math.floor((Math.random() * 50) + 1))] // array containing a random number either between -50 to 50, simulating a random change in the marketprice
+            if (old_market_price < 0) { // Making sure market price doesn't go negative. If negative, make a positive change to the market price
+                var market_price = (old_market_price + change_array[0]).toFixed(2)
+            } else {
+                let change = change_array[Math.floor(Math.random() * change_array.length)]
+                if (change > market_price) { // Ensuring the change doesn't make marketprice go negative.
+                    change = change_array[0]
+                }
+
+                var market_price = (old_market_price + change).toFixed(2)
+            }
+             // apply the market price with the random change generated previously, with only 2 decimal places
             await Market.updateOne(
                 { item_id: item_id },
                 { market_price: market_price}
             );
+            console.log(`[Updated Market] [${item_id}] [$${market_price}] New Market Price!`) // display new value of market price change in console  
         }
         await sleep(3000) // Update the market price every 5 seconds or 5000 milliseconds
     }

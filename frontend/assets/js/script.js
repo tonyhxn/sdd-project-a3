@@ -29,12 +29,27 @@ const getMarketPrice = async (item_id) => {
                 item_id: item_id,
             })
         });
-        let raw_all_items = await response.json(); // extract all items json from response object
-        return raw_all_items // return all items 
+        let market_price_object = await response.json(); // extract all items json from response object
+        let market_price = market_price_object.market_price
+        return market_price // return all items 
     } catch (err) {
         return {error: true, response: err}
     };
 };
+
+function getNetColour(net_amount) {
+    if (net_amount > 0) {
+        net_amount_colour = '#0baa40'
+    } else if (net_amount == 0) {
+        net_amount_colour = 'dodgerblue'
+    } else if (net_amount < 0) {
+        net_amount_colour = '#ff5a5f'
+    } else {
+        net_amount_colour = 'black'
+    }
+
+    return net_amount_colour
+}
 
 // Define global variables that will be updated on the dashboard
 var items_table = 0;
@@ -53,8 +68,6 @@ async function updateDashboard() {
     let raw_all_items = await getItems()
     let all_items = [];
     let display_data = [];
-
-    console.log(raw_all_items)
     if (raw_all_items.error == true) {
         document.getElementById("loading-message").innerHTML =  `[${raw_all_items.response}] Error retrieving items from database 😭`;
     } else if (raw_all_items == false) {
@@ -64,23 +77,19 @@ async function updateDashboard() {
             document.getElementById("loading-message").innerHTML =  'Please bare with us, whilst we display your items! 🥳';
             let display_data = [];
             
-            raw_all_items.forEach(raw_item => {
-                let item_id = item.item_id
-                // let market_price = 
-                let image = raw_item.image
-                let title = raw_item.title
-                let price = raw_item.price
-                let raw_variants = raw_item.variants // raw_variants, meaning raw unformatted data from the request
-                let market_price = await getMarketPrice();
+            for (let i=0; i < raw_all_items.length; i++) {
+                let raw_item = raw_all_items[i]
+                let {item_id, image, title, price, variants: raw_variants} = raw_item // raw_variants, meaning raw unformatted data from the request
+                let market_price = await getMarketPrice(item_id);
 
                 let variants = [];
                 
-                raw_variants.forEach(variant_dict => {
-                    let variant = variant_dict.variant
-                    let active_inventory = variant_dict.active
-                    let sold_inventory = variant_dict.sold
-                    let date = new Date(variant_dict.date).toLocaleDateString("en-US")
+                raw_variants.forEach(variant_object => {
+                    
+                    let {variant, active:active_inventory, sold:sold_inventory, date: raw_date} = variant_object;
+                    let date = new Date(raw_date).toLocaleDateString("en-US")
                     let net_amount = (market_price - price).toFixed(2); // Round to 2 decimal places
+                    let net_amount_colour = getNetColour(net_amount)
 
                     total_cost += price*(active_inventory+sold_inventory);
                     total_profit += net_amount*sold_inventory
@@ -89,29 +98,27 @@ async function updateDashboard() {
                     units_sold += sold_inventory
                     units_total += active_inventory + sold_inventory
 
-                    if (net_amount > 0) {
-                        net_amount_colour = '#0baa40'
-                    } else if (net_amount == 0) {
-                        net_amount_colour = 'dodgerblue'
-                    } else if (net_amount < 0) {
-                        net_amount_colour = '#ff5a5f'
-                    } else {
-                        net_amount_colour = 'black'
-                    }
+                    display_data.push(
+                        {
+                            item_id: item_id,
+                            image: '<img class="item-icon" src="'+image+'" />',
+                            title: title,
+                            variant: variant,
+                            active: active_inventory,
+                            sold: sold_inventory,
+                            price: '$' + price,
+                            market: '$' + market_price,
+                            net: `<label class="netamount-label" style="background-color:${net_amount_colour};">$${net_amount}</label>`,
+                            date: date
+                        }
+                    )
+                    
                 });
+            }
 
-                display_data.push(
-                    {
-                        title: title,
-                        image: image,
-                        price: price,
-                        market: market_price,
-
-                    }
-                )
-
-            });
             $('#table').bootstrapTable({
+                pagination: true,
+                search: true,
                 columns: [
                     {
                         field: 'item_id',
@@ -136,7 +143,7 @@ async function updateDashboard() {
                         title: 'Price'
                     }, {
                         field: 'market',
-                        title: 'Market'
+                        title: 'Market',
                     }, {
                         field: 'net',
                         title: 'Net'
@@ -145,8 +152,15 @@ async function updateDashboard() {
                         title: 'Date'
                     }
                 ],
-                data: [display_data]
+                data: display_data
             });
+
+            document.getElementById("market_eval").innerHTML = market_evaluation.toFixed(2);
+            document.getElementById("total_cost").innerHTML = total_cost.toFixed(2);
+            document.getElementById("total_profit").innerHTML = total_profit.toFixed(2);
+            document.getElementById("total_sales").innerHTML = total_sold.toFixed(2);
+            document.getElementById("items_sold").innerHTML = `${units_sold.toFixed(0)} / ${units_total.toFixed(0)}`;
+            document.getElementById("loading-message").remove()
         } catch (error) {
             document.getElementById("loading-message").innerHTML =  `[${error}] Error displaying items 😭`;
         };
@@ -206,10 +220,3 @@ var item_rows = `<tr>`;
 //     });
     
 // });
-// document.getElementById("market_eval").innerHTML = market_evaluation.toFixed(2);
-// document.getElementById("total_cost").innerHTML = total_cost.toFixed(2);
-// document.getElementById("total_profit").innerHTML = total_profit.toFixed(2);
-// document.getElementById("total_sales").innerHTML = total_sold.toFixed(2);
-// document.getElementById("items_sold").innerHTML = `${units_sold.toFixed(0)}/${units_total.toFixed(0)}`;
-// document.getElementById("items-table").innerHTML = item_rows;
-// document.getElementById("loading-message").remove()
