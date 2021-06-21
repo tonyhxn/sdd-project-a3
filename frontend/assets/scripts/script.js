@@ -18,12 +18,14 @@ const getItems = async () => {
 }
 
 // Define global variables that will be updated on the dashboard
-var items_table = '';
-var total_profit = '';
-var market_evaluation = '';
-var total_cost = '';
-var total_sold = '';
-
+var items_table = 0;
+var total_profit = 0;
+var market_evaluation = 0;
+var total_cost = 0;
+var total_sold = 0;
+var units_sold = 0;
+var units_active = 0;
+var units_total = 0;
 
 // Rendering dashboard functions
 // Includes rendering the table, updating prices displayed upon the cards
@@ -50,19 +52,24 @@ async function updateDashboard() {
                 let title = item.title
                 let price = item.price
                 let raw_variants = item.variants // raw_variants, meaning raw unformatted data from the request
-                let market_price = 129.99
-                
+                let market_price = 229.99
                 
                 let variants = [];
 
                 raw_variants.forEach(variant_dict => {
-
                     let variant = variant_dict.variant
                     let active_inventory = variant_dict.active
                     let sold_inventory = variant_dict.sold
                     let date = new Date(variant_dict.date).toLocaleDateString("en-US")
-                    let net_amount = parseFloat(((market_price* 100 - price* 100)/100).toPrecision(4)) // solution of multiplying prices by 100 to make into an integer then subtract between integers then divide by 100 back to decimal value to solve subtraction of integers issue. Fix divided to 2 decimal places
-                    
+                    let net_amount = (market_price - price).toFixed(2); // solution of multiplying prices by 100 to make into an integer then subtract between integers then divide by 100 back to decimal value to solve subtraction of integers issue. Fix divided to 2 decimal places
+
+                    total_cost += price*(active_inventory+sold_inventory);
+                    total_profit += net_amount*sold_inventory
+                    market_evaluation += market_price*active_inventory
+                    total_sold += sold_inventory*market_price
+                    units_sold += sold_inventory
+                    units_total += active_inventory + sold_inventory
+
                     if (net_amount > 0) {
                         net_amount_colour = '#0baa40'
                     } else if (net_amount == 0) {
@@ -82,10 +89,16 @@ async function updateDashboard() {
                     item_rows += `<td>$${price}</td>`
                     item_rows += `<td>$${market_price}</td>`
                     item_rows += `<td style="color: ${net_amount_colour};">$${net_amount}</td>` 
-                    item_rows += `<td>${date}</td> </tr>`
+                    item_rows += `<td>${date}</td>`
+                    item_rows += `<td><a href="#">Edit</a></td></tr>`
                 });
                 
             });
+            document.getElementById("market_eval").innerHTML = market_evaluation.toFixed(2);
+            document.getElementById("total_cost").innerHTML = total_cost.toFixed(2);
+            document.getElementById("total_profit").innerHTML = total_profit.toFixed(2);
+            document.getElementById("total_sales").innerHTML = total_sold.toFixed(2);
+            document.getElementById("items_sold").innerHTML = `${units_sold.toFixed(0)}/${units_total.toFixed(0)}`;
             document.getElementById("items-table").innerHTML = item_rows;
             document.getElementById("loading-message").remove()
         } catch (error) {

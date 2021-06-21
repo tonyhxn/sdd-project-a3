@@ -23,13 +23,12 @@ router.get('/retrieve', async (req, res) => {
 
 module.exports = router; // export route /retrieve
 
-
 // let all_items = [] // array to be returned to frontend 
 // for (let i=0; i < all_listings.length; i++) { // iterating through each item, formatting and parsing into active and sold listings
 //     await console.log(`Item [${i+1}]: Formatting item and listing status`)
-//     let listing = all_listings[i]
-//     let active_listings = [];
-//     let sold_listings = [];
+    // let listing = all_listings[i]
+    // let active_listings = [];
+    // let sold_listings = [];
 //     let variants = listing.variants
 //     for (let i=0; i < variants.length; i++) { // iterating through each variant in variants
 //         if (variants[i].listing_status == 'Active') { // if active listing sort into active_listings

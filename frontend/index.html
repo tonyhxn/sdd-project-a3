@@ -32,14 +32,20 @@
         <div class="subtitle">Welcome back, Sir Quackers!</div> 
         <div class="container"></div>
         <div class="container">
-            <div class="card">
-                Market Eval.: $25,694
+            <div class="card" >
+                Market Eval.: <br>$<label id="market_eval">0</label>
             </div>
             <div class="card">
-                Total Profit: $9,354
+                Total Cost: <br>$<label id="total_cost">0</label>
             </div>
             <div class="card">
-                Total Sales: $19,438
+                Total Profit: <br>$<label id="total_profit">0</label>
+            </div>
+            <div class="card">
+                Total Sales: <br>$<label id="total_sales">0</label>
+            </div>
+            <div class="card">
+                Sold/Total: <br><label id="items_sold">0/0</label>
             </div>
         </div>
         <div class="container">
@@ -53,9 +59,10 @@
                     <th scope="col">Active</th>
                     <th scope="col">Sold</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Market Price</th>
+                    <th scope="col">Market</th>
                     <th scope="col">Net</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Options</th>
                   </tr>
                 </thead>
                 <tbody id="items-table">
