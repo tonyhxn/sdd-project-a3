@@ -52,7 +52,65 @@
         </div>
         <div class="container">
             <div id="toolbar">
-                <button id='Add' class="btn btn-primary">Add New</button>
+                <button id='Add' class="btn btn-primary" data-toggle="modal" data-target="#add-new">Add Item</button>
+                <div class="modal fade" id="add-new" tabindex="-1" role="dialog" aria-labelledby="add-new" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Add New Item 😊</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Title</span>
+                                            </div>
+                                            <input type="text" placeholder="Item Name" class="form-control" aria-label="item-title" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Price $</span>
+                                            </div>
+                                            <input type="number" placeholder="00.00" class="form-control" aria-label="item-price" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Image</span>
+                                            </div>
+                                            <input type="url" placeholder="Insert Image link" class="form-control" aria-label="item-title" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Variant:Active:Sold</span>
+                                            </div>
+                                            <input type="text" placeholder="Small:1:5,Medium:3:2,Large:4:6" class="form-control" aria-label="item-title" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Add New Item</button>
+                          </div>
+                        </div>
+                      </div>
+                </div>
             </div>
             <table class="table" id="table" data-advanced-search="true" data-id-table="advancedTable" data-toolbar="#toolbar">
                 <thead class="thead-dark">
@@ -67,8 +125,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/toolbar/bootstrap-table-toolbar.min.js"></script>
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>

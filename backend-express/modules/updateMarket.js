@@ -22,7 +22,7 @@ async function updateMarket() {
             item_id = item.item_id
             const market_item = await Market.findOne({ item_id: item_id }); // Find marketprice for respective item_id
             let old_market_price = market_item.market_price
-            let change_array = [Math.floor((Math.random() * 50) + 1), -(Math.floor((Math.random() * 50) + 1))] // array containing a random number either between -50 to 50, simulating a random change in the marketprice
+            let change_array = [Math.floor((Math.random() * 25) + 1), -(Math.floor((Math.random() * 25) + 1))] // array containing a random number either between -25 to 25, simulating a random change in the marketprice
             if (old_market_price < 0) { // Making sure market price doesn't go negative. If negative, make a positive change to the market price
                 var market_price = (old_market_price + change_array[0]).toFixed(2)
             } else {
