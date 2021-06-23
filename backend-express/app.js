@@ -6,8 +6,8 @@ const updateMarket = require('./modules/updateMarket');
 
 // Database Connection
 const mongoose = require('mongoose') // MongoDB module able to communicate between database and backend app
-const uri = "mongodb+srv://admin_tony:e5IWZWuGoI8DPzWh@cluster0.i7z6h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"; // Endpoint for connecting to database, contains database server details
-
+//const uri = "mongodb+srv://admin_tony:e5IWZWuGoI8DPzWh@cluster0.i7z6h.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"; // Endpoint for connecting to database, contains database server details
+const uri = "mongodb://admin_tony:e5IWZWuGoI8DPzWh@cluster0-shard-00-00.i7z6h.mongodb.net:27017,cluster0-shard-00-01.i7z6h.mongodb.net:27017,cluster0-shard-00-02.i7z6h.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-z6ubnz-shard-0&authSource=admin&retryWrites=true&w=majority"
 mongoose.connect(uri, // Connect to mongo database via access uri
     { useNewUrlParser: true,
       useUnifiedTopology: true 

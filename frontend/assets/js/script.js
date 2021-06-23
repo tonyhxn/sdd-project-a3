@@ -159,7 +159,7 @@ async function updateDashboard() {
             document.getElementById("total_cost").innerHTML = total_cost.toFixed(2);
             document.getElementById("total_profit").innerHTML = total_profit.toFixed(2);
             document.getElementById("total_sales").innerHTML = total_sold.toFixed(2);
-            document.getElementById("items_sold").innerHTML = `${units_sold.toFixed(0)} / ${units_total.toFixed(0)}`;
+            document.getElementById("items_sold").innerHTML = `${units_sold} / ${units_total}`;
             document.getElementById("loading-message").remove()
         } catch (error) {
             document.getElementById("loading-message").innerHTML =  `[${error}] Error displaying items 😭`;
@@ -168,9 +168,6 @@ async function updateDashboard() {
 };
 
 updateDashboard()
-
-var item_rows = `<tr>`;
-
 // await all_items.forEach(item => {
 //     let item_id = item.item_id
 //     // let market_price = 
