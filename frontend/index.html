@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
     <script src="https://kit.fontawesome.com/db54eb1973.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body class="light-theme">
@@ -32,7 +33,9 @@
     <div class="main-container">
         <div class="title">Dashboard Overview</div>
         <div class="subtitle">Welcome back, Sir Quackers!</div> 
-        <div class="container"></div>
+        <!-- <div class="container">
+            <canvas id="market-chart"></canvas>
+        </div> -->
         <div class="container">
             <div class="card" >
                 Market Eval.<br>$<label id="market_eval">0</label>
@@ -57,7 +60,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title">Add New Item 😊</h5>
+                            <h5 class="modal-title"><b>Add New Item</b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -111,6 +114,106 @@
                         </div>
                       </div>
                 </div>
+                <button id='Update' class="btn btn-primary" data-toggle="modal" data-target="#update">Update Item</button>
+                <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="update" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title"><b>Update Item</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form id='update-item-form' >
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Title</span>
+                                            </div>
+                                            <input type="text" placeholder="Item Name" class="form-control" name="title" aria-label="item-title" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Price $</span>
+                                            </div>
+                                            <input type="number" step="0.01" placeholder="00.00" class="form-control" name="price" aria-label="item-price" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Image</span>
+                                            </div>
+                                            <input type="url" placeholder="Insert Image link" class="form-control" name="image" aria-label="item-image" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Variant:Active:Sold</span>
+                                            </div>
+                                            <input type="text" placeholder="Small:1:5,Medium:3:2,Large:4:6" class="form-control" name="variants" aria-label="item-variants" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Item ID</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="item_id" aria-label="item_id" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Update Item</button>
+                                </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <button id='Delete' class="btn btn-primary" data-toggle="modal" data-target="#delete">Delete All Of Item</button>
+                <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title"><b>Delete All Of Item with ID</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form id='delete-item-form' >
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text" id="inputGroup-sizing-sm">Item ID</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="item_id" aria-label="item_id" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Delete Item(s)</button>
+                                  </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                </div>
             </div>
             <table class="table" id="table" data-advanced-search="true" data-id-table="advancedTable" data-toolbar="#toolbar">
                 <thead class="thead-dark">
@@ -120,46 +223,14 @@
             <div id="loading-message">Loading Items From Database...</div>
         </div>
     </div>
-    <script>
-        const addItemForm = document.getElementById('add-item-form');
-        addItemForm.addEventListener('submit', function(event){ // On submit event listner 
-            event.preventDefault(); // Prevent page from reloading when submitting form
-            let request_body = {}
-            var formData = new FormData(addItemForm)
-            for (const [key, value] of formData.entries()){
-                
-                let variants = []
-                if (key == 'variants') { // special case for variants, reformatting variants from string to array
-                    let raw_variants = value.trim().split(',') // Converting variant:active:sold,variant:active:sold into [variant:active:sold, variant:active:sold]
-                    for (let raw_variant of raw_variants){
-                        let raw_variant_array = raw_variant.trim().split(':'); // Splitting variant:active:sold into [variant, active, sold]
-                        variants.push({
-                            variant: raw_variant_array[0], // Will correspond to variant in array after splitting if user input followed format
-                            active: raw_variant_array[1], // Will correspond to active in array after splitting if user input followed format
-                            sold: raw_variant_array[2] // Will correspond to sold in array after splitting if user input followed format
-                        });
-                    };
-                    request_body["variants"] = variants;
-                } else {
-                    request_body[key] = value;
-                };
-            };
-
-            fetch('http://localhost:3000/api/create', {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(request_body)
-            });
-        })
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/toolbar/bootstrap-table-toolbar.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/createItem.js"></script>
+    <script src="assets/js/updateItem.js"></script>
+    <script src="assets/js/deleteItem.js"></script>
+    <script src="assets/js/updateDashboard.js"></script>
 </body>
 </html>

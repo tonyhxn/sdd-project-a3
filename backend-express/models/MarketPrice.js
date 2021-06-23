@@ -5,6 +5,10 @@ const MarketSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    market_prices: {
+        type: Array,
+        required: true
+    },
     item_id: {
         type: String,
         required: true

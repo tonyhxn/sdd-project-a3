@@ -56,6 +56,7 @@ router.post('/create', async (req, res) => {
 
             const newMarketItem = await new Market({
                 market_price: price,
+                market_prices: [price],
                 item_id: item_id
             });
 

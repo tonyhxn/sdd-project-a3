@@ -13,7 +13,7 @@ router.post('/update', async (req, res) => {
         const {title, price, image, variants: raw_variants, item_id} = req.body;
         if ( !title || !price || !image || !raw_variants ||!item_id) { // If either title, price, variants, item_id or image doesn't exist
             res.send({response: 'Missing form fields'}); // send error message for missing fields back to frontend request
-        } else if (validate_var(raw_variants, 'update')) { // Validate the data, that variants have variant, active, sold, date
+        } else if (validate_var(raw_variants)) { // Validate the data, that variants have variant, active, sold, date
             res.send({response: 'Invalid variants'}); // send error message for invalid field back to frontend request
         } else {
             console.log(`[${item_id}] Retrieving item from database to be checked`)
@@ -26,12 +26,13 @@ router.post('/update', async (req, res) => {
                 for (let i=0; i < current_item.variants.length; i++) { // iterating through each variant of the current variants in the database
                     var current_variant = current_item.variants[i]
                     // comparing values of the variants, as it is not possible to equate objects directly 
-                    if (variant.variant == current_variant.variant && variant.active == current_variant.active && variant.sold == current_variant.sold && variant.date == current_variant.date){ // if both variants match
-                        variants.push(variant) // add variant into variants, as it did not change thus doesn't need to update the timestamp
+                    if (variant.variant == current_variant.variant && variant.active == current_variant.active && variant.sold == current_variant.sold){ // if both variants match
+                        variants.push(current_variant) // add the old (currently stored in database) variant into variants, as it did not change thus doesn't need to update the timestamp
                         variant_inserted = true // variant has been inserted, thus equals true
                         break // Break out of inside loop after it has finished checking the new variant to maximise efficiency, eliminating the need for useless further checks as it has already found a match
                     }
                 }
+
                 if (variant_inserted == false) { // using variant_inserted as a check to not override the variant that had been already inserted in the above for loop check
                     // if it hasn't been inserted already, it must be a new/changed variant thus add to variants with updated timestamp
                     variant.date = new_variant_timestamp // Update date

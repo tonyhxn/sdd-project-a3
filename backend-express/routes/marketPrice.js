@@ -11,8 +11,9 @@ router.post('/marketprice', async (req, res) => {
         await console.log(`Retrieving price for Item ${item_id} from database...`)
         const market_item = await Market.findOne({ item_id: item_id }); // Find marketprice for respective item_id
         const market_price = await market_item.market_price
+        const market_prices = await market_item.market_prices
         await console.log(`Retrieved Item ${item_id}: Marketprice [$${market_price}] from database`)
-        res.send({market_price: market_price}) // completing request by sending market_price as response
+        res.send({market_price: market_price, market_prices: market_prices}) // completing request by sending market_price as response
         await console.log(`Returned Item ${item_id}: Marketprice [$${market_price}] to frontend response`)
     } catch (error) {
         res.send(`[${error}] Error processing retrieve request`) // Safer error handling encompassing a greater scope if processing request encounters error, does not crash program instead returns error response
